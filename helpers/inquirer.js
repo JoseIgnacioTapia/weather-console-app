@@ -67,13 +67,13 @@ const leerInput = async (message) => {
   return desc;
 };
 
-const listadoTareasBorrar = async (tareas = []) => {
-  const choices = tareas.map((tarea, i) => {
+const listarLugares = async (lugares = []) => {
+  const choices = lugares.map((lugar, i) => {
     const idx = `${i + 1}`.green;
 
     return {
-      value: tarea.id,
-      name: `${idx} ${tarea.desc}`,
+      value: lugar.id,
+      name: `${idx} ${lugar.nombre}`,
     };
   });
 
@@ -86,13 +86,12 @@ const listadoTareasBorrar = async (tareas = []) => {
     {
       type: "list",
       name: "id",
-      message: "borrar",
+      message: "Seleccione lugar",
       choices,
     },
   ];
 
   const { id } = await inquirer.prompt(preguntas);
-  console.log(id);
   return id;
 };
 
@@ -137,7 +136,7 @@ export {
   inquireMenu,
   pausa,
   leerInput,
-  listadoTareasBorrar,
+  listarLugares,
   confirmar,
   mostrarListadoChecklist,
 };
