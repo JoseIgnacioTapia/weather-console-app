@@ -1,5 +1,9 @@
+import "dotenv/config";
+
 import { leerInput, inquireMenu, pausa } from "./helpers/inquirer.js";
 import { Busquedas } from "./models/busquedas.js";
+
+console.log(process.env);
 
 const main = async () => {
   const busquedas = new Busquedas();
@@ -12,7 +16,7 @@ const main = async () => {
       case 1:
         // Mostrar mensaje
         const lugar = await leerInput("Ciudad: ");
-        console.log(lugar);
+        await busquedas.ciudad(lugar);
 
         // Buscar los lugares
 
@@ -29,9 +33,6 @@ const main = async () => {
         console.log("Mínima:");
         console.log("Máxima:");
 
-        break;
-
-      default:
         break;
     }
 

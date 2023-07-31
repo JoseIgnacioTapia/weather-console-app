@@ -7,8 +7,7 @@ export class Busquedas {
 
   get paramsMapbox() {
     return {
-      acces_token:
-        "pk.eyJ1Ijoiam9laXQiLCJhIjoiY2xrYnYwNzRrMGlsOTNmb2Jxc3IwcnhkNyJ9.PgUvdbkOlDh6KsQ1iVb3NQ",
+      acces_token: process.env.MAPBOX_KEY,
       limit: 5,
       language: "es",
     };
@@ -25,11 +24,9 @@ export class Busquedas {
       const resp = await intance.get();
       console.log(resp.data);
 
-      return [];
+      return resp.data;
     } catch (error) {
       return [];
     }
-    // peticion thhp
-    console.log(lugar);
   }
 }
