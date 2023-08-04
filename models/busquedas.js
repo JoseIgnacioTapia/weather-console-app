@@ -1,8 +1,21 @@
+import { existsSync, writeFileSync } from "fs";
+import axios from "../node_modules/axios/dist/node/axios.cjs";
+
 export class Busquedas {
-  historial = ["Tegucigalpa", "Madrid", "San José"];
+  historial = [];
+  dbPath = "./db/database.json";
 
   constructor() {
-    // TODO: leer DB si existe
+    this.leerDB();
+  }
+
+  get historialCapitalizado() {
+    return this.historial.map((lugar) => {
+      let palabras = lugar.split("");
+      palabras = palabras.map((p) => p[0].toUpperCase() + p.substring(1));
+
+      return palabras.join(" ");
+    });
   }
 
   get paramsMapbox() {
@@ -60,5 +73,34 @@ export class Busquedas {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  agregarHistorial(lugar = "") {
+    if (this.historial.includes(lugar.toLocaleLowerCase())) {
+      return;
+    }
+    this.historial = this.historial.splice(0.5);
+
+    this.historial.unshift(lugar.toLocaleLowerCase);
+
+    // Grabar en DB
+    this.guardarDB();
+  }
+
+  guardarDB() {
+    const payload = {
+      historial: this.historial,
+    };
+
+    writeFileSync(this.dbPath, JSON.stringify(payload));
+  }
+
+  leerDB() {
+    if (!existsSync(this.dbPath)) return;
+
+    const info = readFileSync(this.dbPath, { encoding: "utf-8" });
+    const data = JSON.parse(info);
+
+    this.historial = data.historial;
   }
 }
